@@ -1,0 +1,52 @@
+<idea-plugin version="2">
+    <id>com.asher.yang.upload</id>
+    <name>a upload plugin</name>
+    <version>1.0.0</version>
+    <vendor email="ouyangfan1991@gmail.com" url="https://github.com/AsherYang">AsherYang</vendor>
+
+    <description><![CDATA[
+      a upload plugin for quick work .<br>
+      <em>most HTML tags may be used</em>
+    ]]></description>
+
+    <change-notes><![CDATA[
+      Add change notes here.<br>
+      <em>most HTML tags may be used</em>
+    ]]>
+    </change-notes>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="141.0"/>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
+
+    <extensions defaultExtensionNs="com.intellij">
+        <projectConfigurable groupId="tools" dynamic="true" displayName="Asher Upload" id="preferences.asher"
+                             groupWeight="10" instance="com.asher.yang.upload.UploadProjectComponent"/>
+
+        <projectService serviceInterface="com.asher.yang.upload.UploadWindowManager"
+                        serviceImplementation="com.asher.yang.upload.UploadWindowManager"/>
+
+        <projectService serviceInterface="com.asher.yang.upload.form.BrowserPanel"
+                        serviceImplementation="com.asher.yang.upload.form.BrowserPanel"/>
+
+        <projectService serviceInterface="com.asher.yang.upload.form.ConfigurationPanel"
+                        serviceImplementation="com.asher.yang.upload.form.ConfigurationPanel"/>
+
+
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+
+    <project-components>
+        <component>
+            <implementation-class>com.asher.yang.upload.UploadProjectComponent</implementation-class>
+        </component>
+    </project-components>
+</idea-plugin>
