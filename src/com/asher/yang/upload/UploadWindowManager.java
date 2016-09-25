@@ -25,8 +25,8 @@ public class UploadWindowManager {
     private static final Icon ASHER_ICON = GuiUtil.loadIcon("asher_logo.png");
     private final Project project;
 
-    public static UploadWindowManager getInstance(Project Project) {
-        return ServiceManager.getService(Project, UploadWindowManager.class);
+    public static UploadWindowManager getInstance(Project project) {
+        return ServiceManager.getService(project, UploadWindowManager.class);
     }
 
     public UploadWindowManager(Project project) {

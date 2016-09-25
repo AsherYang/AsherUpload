@@ -1,11 +1,11 @@
 <idea-plugin version="2">
-    <id>com.asher.yang.upload</id>
+    <id>com.asher.yang.upload.plugin</id>
     <name>a upload plugin</name>
     <version>1.0.0</version>
     <vendor email="ouyangfan1991@gmail.com" url="https://github.com/AsherYang">AsherYang</vendor>
 
     <description><![CDATA[
-      a upload plugin for quick work .<br>
+      an upload plugin for quick work .<br>
       <em>most HTML tags may be used</em>
     ]]></description>
 
@@ -36,7 +36,6 @@
 
         <projectService serviceInterface="com.asher.yang.upload.form.ConfigurationPanel"
                         serviceImplementation="com.asher.yang.upload.form.ConfigurationPanel"/>
-
 
     </extensions>
 
