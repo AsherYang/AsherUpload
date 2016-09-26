@@ -1,6 +1,11 @@
 package com.asher.yang.upload.form;
 
+import com.asher.yang.upload.action.OpenPluginSettingsAction;
+import com.asher.yang.upload.action.SelectViewAction;
 import com.asher.yang.upload.bean.View;
+import com.asher.yang.upload.util.GuiUtil;
+import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
@@ -13,14 +18,12 @@ import javax.swing.*;
  */
 public class BrowserPanel extends SimpleToolWindowPanel {
 
-    private Project project;
     private JPanel rootPanel;
 
     private View currentSelectedView;
 
     private BrowserPanel(Project project) {
         super(true);
-        this.project = project;
         setContent(rootPanel);
     }
 
@@ -37,11 +40,11 @@ public class BrowserPanel extends SimpleToolWindowPanel {
     }
 
     private void installActionsInToolbar() {
-//        DefaultActionGroup actionGroup = new DefaultActionGroup("AsherToolbarGroup", false);
-//        actionGroup.add(new SelectViewAction(this));
-//        actionGroup.addSeparator();
-//        actionGroup.add(new OpenPluginSettingsAction());
-//        GuiUtil.installActionGroupInToolBar(actionGroup, this, ActionManager.getInstance(), "AsherBrowserActions");
+        DefaultActionGroup actionGroup = new DefaultActionGroup("AsherToolbarGroup", false);
+        actionGroup.add(new SelectViewAction(this));
+        actionGroup.addSeparator();
+        actionGroup.add(new OpenPluginSettingsAction());
+        GuiUtil.installActionGroupInToolBar(actionGroup, this, ActionManager.getInstance(), "AsherBrowserActions");
     }
 
     public View getCurrentSelectedView() {
