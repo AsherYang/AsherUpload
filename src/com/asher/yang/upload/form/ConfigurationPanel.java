@@ -1,11 +1,13 @@
 package com.asher.yang.upload.form;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.util.ResourceUtil;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.URL;
 
 /**
  * Created by AsherYang on 2016/9/24.
@@ -31,7 +33,8 @@ public class ConfigurationPanel {
 
     private ActionListener mConnectBtnActionListener = e -> {
         try {
-            Process process = Runtime.getRuntime().exec("python /Users/ouyangfan/Documents/ouyangfan/code_program/python_pro/hello.py");
+            URL url = ResourceUtil.getResource(ConfigurationPanel.class.getClassLoader(), "python", "connect.py");
+            Process process = Runtime.getRuntime().exec("python " + url.getPath());
             InputStreamReader isr = new InputStreamReader(process.getInputStream());
             BufferedReader br = new BufferedReader(isr);
 
