@@ -28,7 +28,7 @@ public class ConfigurationPanel {
     public ConfigurationPanel(Project project) {
         this.project = project;
 
-        testConnectionButton.addActionListener(mConnectBtnActionListener);
+        testConnectionButton.addActionListener(mCopyFileActionListener);
     }
 
     private ActionListener mConnectBtnActionListener = e -> {
@@ -51,7 +51,43 @@ public class ConfigurationPanel {
         }
     };
 
+    private ActionListener mCopyFileActionListener = event -> {
+        String host = getInputHost();
+        String userName = getInputUserName();
+        String password = getInputPassword();
+        URL url  = ResourceUtil.getResource(ConfigurationPanel.class.getClassLoader(), "python", "copyfile.py");
+        try {
+//            Process process = Runtime.getRuntime().exec("python " + url.getPath());
+//            InputStream is = process.getInputStream();
+//            InputStreamReader isr = new InputStreamReader(is);
+//            BufferedReader br = new BufferedReader(isr);
+//            String line = null;
+//            while ((line = br.readLine()) != null) {
+//                System.out.println("line = " + line);
+//            }
+//            br.close();
+//            isr.close();
+//            is.close();
+//            process.waitFor();
+            System.out.println("host = " + getInputHost() + " , userName = " + getInputUserName() + " , password = " + getInputPassword());
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    };
+
     public JPanel getRootPanel() {
         return rootPanel;
+    }
+
+    public String getInputUserName() {
+        return usernameField.getText();
+    }
+
+    public String getInputHost() {
+        return hostField.getText();
+    }
+
+    public String getInputPassword() {
+        return String.valueOf(passwordField.getPassword());
     }
 }
