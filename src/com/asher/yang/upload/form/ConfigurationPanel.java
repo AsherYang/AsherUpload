@@ -51,6 +51,7 @@ public class ConfigurationPanel {
         }
     };
 
+    // TODO: 16/10/20 how java to call python method . use jython ?
     private ActionListener mCopyFileActionListener = event -> {
         String host = getInputHost();
         String userName = getInputUserName();
