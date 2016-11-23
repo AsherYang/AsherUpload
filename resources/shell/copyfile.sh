@@ -6,3 +6,5 @@ echo "hello world . asher"
 name=$1
 
 echo "the ${name} is a great man !"
+
+# copy file
