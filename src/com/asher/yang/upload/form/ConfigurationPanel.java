@@ -24,7 +24,7 @@ public class ConfigurationPanel {
     private JButton testConnectionButton;
     private JLabel connectionStatusLabel;
     private JTextField downPathField;
-    private JTextField uploadPathField;
+    private JTextField uploadFileName;
 
     private Project project;
 
@@ -109,7 +109,7 @@ public class ConfigurationPanel {
     /**
      * 输入的上传地址
      */
-    public String getInputUploadDir() {
-        return uploadPathField.getText();
+    public String getInputUploadFileName() {
+        return uploadFileName.getText();
     }
 }
