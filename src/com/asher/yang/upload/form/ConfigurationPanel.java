@@ -1,7 +1,7 @@
 package com.asher.yang.upload.form;
 
-import com.asher.yang.upload.bean.Ssh;
-import com.asher.yang.upload.bussiness.SshExec;
+import com.asher.yang.upload.bean.FtpBean;
+import com.asher.yang.upload.bussiness.FtpExec;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.ResourceUtil;
 
@@ -23,7 +23,8 @@ public class ConfigurationPanel {
     private JPanel rootPanel;
     private JButton testConnectionButton;
     private JLabel connectionStatusLabel;
-    private JTextField dirPathField;
+    private JTextField downPathField;
+    private JTextField uploadPathField;
 
     private Project project;
 
@@ -55,29 +56,60 @@ public class ConfigurationPanel {
 
     // use linux shell . because java call python (param) not suit here.
     private ActionListener mCopyFileActionListener = event -> {
-        Ssh ssh = new Ssh();
-        ssh.setHost(getInputHost());
-        ssh.setUsername(getInputUserName());
-        ssh.setPassword(getInputPassword());
-        String cmd = "ls /root/";
-        SshExec sshExec = new SshExec(ssh);
-        String result = sshExec.execute(cmd);
-        System.out.println("result = " + result);
+//        SshBean ssh = new SshBean();
+//        ssh.setHost(getInputHost());
+//        ssh.setUsername(getInputUserName());
+//        ssh.setPassword(getInputPassword());
+//        String dirPath = getInputDownDir();
+//        String cmd = "ls " + dirPath;
+//        SshExec sshExec = new SshExec(ssh);
+//        String result = sshExec.execute(cmd);
+//        System.out.println("result = " + result);
+        FtpBean ftpBean = new FtpBean();
+        ftpBean.setHost(getInputHost());
+        ftpBean.setPort(21);
+        ftpBean.setUsername(getInputUserName());
+        ftpBean.setPassword(getInputPassword());
+        FtpExec ftpExec = new FtpExec(ftpBean);
+        ftpExec.execute();
     };
 
     public JPanel getRootPanel() {
         return rootPanel;
     }
 
+    /**
+     * 输入的用户名
+     */
     public String getInputUserName() {
         return usernameField.getText();
     }
 
+    /**
+     * 输入的远程 host
+     */
     public String getInputHost() {
         return hostField.getText();
     }
 
+    /**
+     * 输入的密码
+     */
     public String getInputPassword() {
         return String.valueOf(passwordField.getPassword());
+    }
+
+    /**
+     * 输入的下载地址
+     */
+    public String getInputDownDir() {
+        return String.valueOf(downPathField.getText());
+    }
+
+    /**
+     * 输入的上传地址
+     */
+    public String getInputUploadDir() {
+        return uploadPathField.getText();
     }
 }

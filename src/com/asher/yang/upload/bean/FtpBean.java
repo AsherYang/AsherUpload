@@ -4,14 +4,19 @@ package com.asher.yang.upload.bean;
  * Created by AsherYang on 2016/12/5.
  * email: ouyangfan1991@gmail.com
  * <p>
- * ssh bean
+ * ftp bean
  */
-public class Ssh {
+public class FtpBean {
 
     /**
-     * 远程主机地址
+     * 远程主机名
      */
     private String host;
+
+    /**
+     * 远程主机ftp 端口
+     */
+    private int port;
 
     /**
      * 用户名
@@ -31,6 +36,14 @@ public class Ssh {
         this.host = host;
     }
 
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -46,5 +59,4 @@ public class Ssh {
     public void setPassword(String password) {
         this.password = password;
     }
-
 }

@@ -1,7 +1,10 @@
 package com.asher.yang.upload.bussiness;
 
-import com.asher.yang.upload.bean.Ssh;
-import com.jcraft.jsch.*;
+import com.asher.yang.upload.bean.SshBean;
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
 
 import java.io.InputStream;
 import java.util.Properties;
@@ -9,13 +12,15 @@ import java.util.Properties;
 /**
  * Created by AsherYang on 2016/12/5.
  * email: ouyangfan1991@gmail.com
+ * <p>
+ * support ssh execute method
  */
 public class SshExec {
 
-    private Ssh ssh;
+    private SshBean ssh;
     private String osName = System.getProperty("os.name");
 
-    public SshExec(Ssh ssh) {
+    public SshExec(SshBean ssh) {
         this.ssh = ssh;
     }
 
@@ -38,13 +43,13 @@ public class SshExec {
             session.setPassword(ssh.getPassword());
             session.connect();
             Channel channel = session.openChannel("exec");
-            ((ChannelExec)channel).setCommand(cmd);
+            ((ChannelExec) channel).setCommand(cmd);
             InputStream in = channel.getInputStream();
             channel.connect();
             int nextChar;
             while (true) {
                 while ((nextChar = in.read()) != -1) {
-                    sb.append((char)nextChar);
+                    sb.append((char) nextChar);
                 }
                 if (channel.isClosed()) {
                     System.out.println("exit-status: " + channel.getExitStatus());
