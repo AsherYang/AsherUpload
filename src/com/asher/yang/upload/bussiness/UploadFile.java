@@ -14,14 +14,14 @@ import java.util.List;
  * Created by AsherYang on 2016/12/5.
  * email: ouyangfan1991@gmail.com
  * <p>
- * support ftp execute method
+ * upload file to server use of ftp
  */
-public class FtpExec {
+public class UploadFile {
 
     private String baseDir = "/project/Android/I3Watch/I3_Android_Contact";
     private FtpBean ftpBean;
 
-    public FtpExec(FtpBean ftpBean) {
+    public UploadFile(FtpBean ftpBean) {
         this.ftpBean = ftpBean;
     }
 

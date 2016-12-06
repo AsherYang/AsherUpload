@@ -10,16 +10,16 @@ import java.util.List;
 public class View {
 
     private String name;
-    private String url;
+    private String path;
 
     private final List<View> subViews = new LinkedList<View>();
 
     public View() {
     }
 
-    public View(String name, String url) {
+    public View(String name, String path) {
         this.name = name;
-        this.url = url;
+        this.path = path;
     }
 
     public String getName() {
@@ -30,12 +30,12 @@ public class View {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
+    public String getPath() {
+        return path;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public List<View> getSubViews() {
@@ -44,5 +44,9 @@ public class View {
 
     public void addSubView(View subView) {
         this.subViews.add(subView);
+    }
+
+    public static View createView(String viewName, String viewUrl) {
+        return new View(viewName, viewUrl);
     }
 }

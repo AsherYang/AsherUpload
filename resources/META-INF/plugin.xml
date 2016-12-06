@@ -37,6 +37,9 @@
         <projectService serviceInterface="com.asher.yang.upload.form.ConfigurationPanel"
                         serviceImplementation="com.asher.yang.upload.form.ConfigurationPanel"/>
 
+        <projectService serviceInterface="com.asher.yang.upload.UploadSettings"
+                        serviceImplementation="com.asher.yang.upload.UploadSettings" />
+
     </extensions>
 
     <actions>

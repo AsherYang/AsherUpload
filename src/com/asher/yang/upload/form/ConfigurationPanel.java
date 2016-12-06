@@ -1,15 +1,13 @@
 package com.asher.yang.upload.form;
 
+import com.asher.yang.upload.UploadSettings;
 import com.asher.yang.upload.bean.FtpBean;
-import com.asher.yang.upload.bussiness.FtpExec;
+import com.asher.yang.upload.bussiness.GetFtpFiles;
 import com.intellij.openapi.project.Project;
-import com.intellij.util.ResourceUtil;
+import com.intellij.ui.IdeBorderFactory;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 
 /**
  * Created by AsherYang on 2016/9/24.
@@ -23,35 +21,31 @@ public class ConfigurationPanel {
     private JPanel rootPanel;
     private JButton testConnectionButton;
     private JLabel connectionStatusLabel;
-    private JTextField downPathField;
-    private JTextField uploadFileName;
+    private JTextField fromPathField;
+    private JTextField toPathField;
+    private JTextField uploadFileNameField;
+    private JCheckBox onlyReleaseCheckBox;
+    private JPanel checkBoxPanel;
 
     private Project project;
 
     public ConfigurationPanel(Project project) {
         this.project = project;
 
-        testConnectionButton.addActionListener(mCopyFileActionListener);
+        testConnectionButton.addActionListener(mConnectBtnActionListener);
+        checkBoxPanel.setBorder(IdeBorderFactory.createTitledBorder("Show Settings", true));
     }
 
     private ActionListener mConnectBtnActionListener = e -> {
-        try {
-            URL url = ResourceUtil.getResource(ConfigurationPanel.class.getClassLoader(), "python", "connect.py");
-            Process process = Runtime.getRuntime().exec("python " + url.getPath());
-            InputStreamReader isr = new InputStreamReader(process.getInputStream());
-            BufferedReader br = new BufferedReader(isr);
-
-            String line = null;
-            while ((line = br.readLine()) != null) {
-                System.out.println("line = " + line);
-            }
-
-            br.close();
-            isr.close();
-            process.waitFor();
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
+        FtpBean ftpBean = new FtpBean();
+        ftpBean.setHost(getInputHost());
+        ftpBean.setPort(21);
+        ftpBean.setUsername(getInputUserName());
+        ftpBean.setPassword(getInputPassword());
+        GetFtpFiles ftpFiles = new GetFtpFiles(ftpBean);
+        ftpFiles.login();
+        UploadSettings uploadSettings = UploadSettings.getSafeInstance(project);
+        applyConfigurationData(uploadSettings);
     };
 
     // use linux shell . because java call python (param) not suit here.
@@ -60,7 +54,7 @@ public class ConfigurationPanel {
 //        ssh.setHost(getInputHost());
 //        ssh.setUsername(getInputUserName());
 //        ssh.setPassword(getInputPassword());
-//        String dirPath = getInputDownDir();
+//        String dirPath = getInputFromPath();
 //        String cmd = "ls " + dirPath;
 //        SshExec sshExec = new SshExec(ssh);
 //        String result = sshExec.execute(cmd);
@@ -70,8 +64,8 @@ public class ConfigurationPanel {
         ftpBean.setPort(21);
         ftpBean.setUsername(getInputUserName());
         ftpBean.setPassword(getInputPassword());
-        FtpExec ftpExec = new FtpExec(ftpBean);
-        ftpExec.execute();
+        GetFtpFiles ftpExec = new GetFtpFiles(ftpBean);
+        System.out.println("=== " + ftpExec.getFiles());
     };
 
     public JPanel getRootPanel() {
@@ -102,14 +96,85 @@ public class ConfigurationPanel {
     /**
      * 输入的下载地址
      */
-    public String getInputDownDir() {
-        return String.valueOf(downPathField.getText());
+    public String getInputFromPath() {
+        return String.valueOf(fromPathField.getText());
+    }
+
+    /**
+     * 输入的上传地址
+     */
+    public String getInputToPath() {
+        return toPathField.getText();
     }
 
     /**
      * 输入的上传地址
      */
     public String getInputUploadFileName() {
-        return uploadFileName.getText();
+        return uploadFileNameField.getText();
+    }
+
+    /**
+     * 是否选中releaseCheckBox
+     */
+    public boolean getInputReleaseCbState() {
+        return onlyReleaseCheckBox.isSelected();
+    }
+
+    /**
+     * is modified
+     *
+     * @param uploadSettings uploadSettings
+     * @return is modified
+     */
+    public boolean isModified(UploadSettings uploadSettings) {
+        boolean credentialModified = !(uploadSettings.getUsername().equals(getInputUserName()))
+                || !uploadSettings.getPassword().equals(getInputPassword());
+
+        boolean selectModified = uploadSettings.getIsOnlyShowRelease() != getInputReleaseCbState();
+
+        boolean uploadArgsModified = !uploadSettings.getHost().equals(getInputHost())
+                || !uploadSettings.getFromPath().equals(getInputFromPath())
+                || !uploadSettings.getToPath().equals(getInputToPath())
+                || !uploadSettings.getFileName().equals(getInputUploadFileName());
+
+        return credentialModified || selectModified || uploadArgsModified;
+    }
+
+    /**
+     * apply configuration data
+     *
+     * @param uploadSettings settings
+     */
+    public void applyConfigurationData(UploadSettings uploadSettings) {
+        if (null == uploadSettings) {
+            return;
+        }
+
+        uploadSettings.setHost(getInputHost());
+        uploadSettings.setUsername(getInputUserName());
+        uploadSettings.setPassword(getInputPassword());
+        uploadSettings.setFromPath(getInputFromPath());
+        uploadSettings.setToPath(getInputToPath());
+        uploadSettings.setFileName(getInputUploadFileName());
+        uploadSettings.setOnlyShowRelease(getInputReleaseCbState());
+    }
+
+    /**
+     * load configuration data
+     *
+     * @param uploadSettings settings
+     */
+    public void loadConfigurationData(UploadSettings uploadSettings) {
+        if (null == uploadSettings) {
+            return;
+        }
+        hostField.setText(uploadSettings.getHost());
+        usernameField.setText(uploadSettings.getUsername());
+        passwordField.setText(uploadSettings.getPassword());
+        fromPathField.setText(uploadSettings.getFromPath());
+        toPathField.setText(uploadSettings.getToPath());
+        uploadFileNameField.setText(uploadSettings.getFileName());
+        onlyReleaseCheckBox.setSelected(uploadSettings.getIsOnlyShowRelease());
     }
 }

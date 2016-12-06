@@ -22,9 +22,11 @@ public class UploadProjectComponent implements ProjectComponent , SearchableConf
 
     private Project project;
     private ConfigurationPanel configurationPanel;
+    private UploadSettings uploadSettings;
 
     public UploadProjectComponent(Project project) {
         this.project = project;
+        this.uploadSettings = UploadSettings.getSafeInstance(project);
     }
 
     @Override
@@ -88,17 +90,21 @@ public class UploadProjectComponent implements ProjectComponent , SearchableConf
 
     @Override
     public boolean isModified() {
-        return false;
+        return configurationPanel != null && configurationPanel.isModified(uploadSettings);
     }
 
     @Override
     public void apply() throws ConfigurationException {
-
+        if (null != configurationPanel) {
+            configurationPanel.applyConfigurationData(uploadSettings);
+        }
     }
 
     @Override
     public void reset() {
-
+        if (null != configurationPanel) {
+            configurationPanel.loadConfigurationData(uploadSettings);
+        }
     }
 
     @Override

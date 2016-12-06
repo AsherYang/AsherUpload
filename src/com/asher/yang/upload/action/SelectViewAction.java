@@ -38,7 +38,6 @@ public class SelectViewAction extends AnAction implements CustomComponentAction 
         iconLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 2));
         myPanel.add(iconLabel, myLabel);
 
-
     }
 
     @Override
