@@ -44,8 +44,6 @@ public class ConfigurationPanel {
         ftpBean.setPassword(getInputPassword());
         GetFtpFiles ftpFiles = new GetFtpFiles(ftpBean);
         ftpFiles.login();
-        UploadSettings uploadSettings = UploadSettings.getSafeInstance(project);
-        applyConfigurationData(uploadSettings);
     };
 
     // use linux shell . because java call python (param) not suit here.
