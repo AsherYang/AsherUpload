@@ -43,6 +43,9 @@
         <projectService serviceInterface="com.asher.yang.upload.bussiness.LoginService"
                         serviceImplementation="com.asher.yang.upload.bussiness.LoginService" />
 
+        <projectService serviceInterface="com.asher.yang.upload.bussiness.RefreshFileService"
+                        serviceImplementation="com.asher.yang.upload.bussiness.RefreshFileService" />
+
     </extensions>
 
     <actions>

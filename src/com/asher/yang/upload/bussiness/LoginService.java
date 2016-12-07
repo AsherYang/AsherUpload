@@ -1,7 +1,6 @@
 package com.asher.yang.upload.bussiness;
 
 import com.asher.yang.upload.UploadSettings;
-import com.asher.yang.upload.bean.FtpBean;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
@@ -33,32 +32,10 @@ public class LoginService {
         new Task.Backgroundable(project, "Authenticating Upload", false, UploadTaskOption.INSTANCE) {
 
             @Override
-            public void onCancel() {
-                super.onCancel();
-            }
-
-            @Override
-            public void onSuccess() {
-                System.out.println("login success.");
-                super.onSuccess();
-            }
-
-            @Override
-            public void onError(@NotNull Exception error) {
-                super.onError(error);
-                System.out.println("login fail.");
-            }
-
-            @Override
             public void run(@NotNull ProgressIndicator progressIndicator) {
-                FtpBean ftpBean = new FtpBean();
-                ftpBean.setHost(uploadSettings.getHost());
-                ftpBean.setPort(21);
-                ftpBean.setUsername(uploadSettings.getUsername());
-                ftpBean.setPassword(uploadSettings.getPassword());
-                FtpFileUtil ftpUtil = new FtpFileUtil();
+                FtpFileUtil ftpUtil = new FtpFileUtil(US2ConfigBeanUtil.toConfigBean(uploadSettings));
                 try {
-                    ftpUtil.login(ftpBean);
+                    ftpUtil.login();
                     if (null != mLoginCallBack) {
                         mLoginCallBack.onSuccess();
                     }
@@ -66,6 +43,12 @@ public class LoginService {
                     System.out.println("login fail . ex = " + e.getMessage());
                     if (null != mLoginCallBack) {
                         mLoginCallBack.onFail(e);
+                    }
+                } finally {
+                    try {
+                        ftpUtil.disConnect();
+                    } catch (Exception e) {
+                        System.out.println("login fail disConnect. ex = " + e.getMessage());
                     }
                 }
             }

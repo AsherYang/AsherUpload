@@ -42,11 +42,7 @@ public class SelectViewAction extends AnAction implements CustomComponentAction 
 
     @Override
     public void update(AnActionEvent e) {
-        View currentSelectedView = browserPanel.getCurrentSelectedView();
-        if (currentSelectedView != null) {
-            myLabel.setText(currentSelectedView.getName());
-        }
-        myLabel.setText("");
+
     }
 
 

@@ -30,9 +30,10 @@ public class UploadFileAction extends AnAction implements DumbAware {
     }
 
     private void notifyOnGoingMessage(FTPFile ftpFile) {
+        if (null == ftpFile) {
+            return;
+        }
         System.out.println("File = " + ftpFile.getName() + " , link = " + ftpFile.getLink());
-//        browserPanel.notifyInfoToolWindow(HtmlUtil.createHtmlLinkMessage
-//                (ftpFile.getName() + " upload is on going.", ftpFile.getLink()));
         browserPanel.notifySuccessMessage(ftpFile.getName());
     }
 

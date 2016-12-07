@@ -6,7 +6,7 @@ package com.asher.yang.upload.bean;
  * <p>
  * ftp bean
  */
-public class FtpBean {
+public class ConfigBean {
 
     /**
      * 远程主机名
@@ -27,6 +27,14 @@ public class FtpBean {
      * 密码
      */
     private String password;
+
+    private String fromPath;
+
+    private String toPath;
+
+    private String fileName;
+
+    private boolean isOnlyRelease;
 
     public String getHost() {
         return host;
@@ -58,5 +66,37 @@ public class FtpBean {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getFromPath() {
+        return fromPath;
+    }
+
+    public void setFromPath(String fromPath) {
+        this.fromPath = fromPath;
+    }
+
+    public String getToPath() {
+        return toPath;
+    }
+
+    public void setToPath(String toPath) {
+        this.toPath = toPath;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public boolean isOnlyRelease() {
+        return isOnlyRelease;
+    }
+
+    public void setOnlyRelease(boolean onlyRelease) {
+        isOnlyRelease = onlyRelease;
     }
 }

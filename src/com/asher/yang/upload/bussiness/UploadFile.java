@@ -1,6 +1,6 @@
 package com.asher.yang.upload.bussiness;
 
-import com.asher.yang.upload.bean.FtpBean;
+import com.asher.yang.upload.bean.ConfigBean;
 import com.asher.yang.upload.util.TextUtils;
 import it.sauronsoftware.ftp4j.FTPClient;
 import it.sauronsoftware.ftp4j.FTPFile;
@@ -19,24 +19,24 @@ import java.util.List;
 public class UploadFile {
 
     private String baseDir = "/project/Android/I3Watch/I3_Android_Contact";
-    private FtpBean ftpBean;
+    private ConfigBean configBean;
 
-    public UploadFile(FtpBean ftpBean) {
-        this.ftpBean = ftpBean;
+    public UploadFile(ConfigBean configBean) {
+        this.configBean = configBean;
     }
 
     public void execute() {
-        if (null == ftpBean || TextUtils.isEmpty(ftpBean.getHost())
-                || TextUtils.isEmpty(ftpBean.getUsername())
-                || TextUtils.isEmpty(ftpBean.getPassword())) {
+        if (null == configBean || TextUtils.isEmpty(configBean.getHost())
+                || TextUtils.isEmpty(configBean.getUsername())
+                || TextUtils.isEmpty(configBean.getPassword())) {
             throw new IllegalArgumentException("ftp bean must not null.");
         }
         FTPClient ftpClient = new FTPClient();
         ftpClient.setCharset("utf-8");
         ftpClient.setType(FTPClient.TYPE_BINARY);
         try {
-            ftpClient.connect(ftpBean.getHost(), ftpBean.getPort());
-            ftpClient.login(ftpBean.getUsername(), ftpBean.getPassword());
+            ftpClient.connect(configBean.getHost(), configBean.getPort());
+            ftpClient.login(configBean.getUsername(), configBean.getPassword());
 //            ftpClient.changeDirectory("/project/Watch/I3/App/All/release");
             ftpClient.changeDirectory(baseDir);
             FTPFile[] files = ftpClient.list();
