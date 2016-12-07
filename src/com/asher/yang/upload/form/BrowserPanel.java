@@ -132,7 +132,7 @@ public class BrowserPanel extends SimpleToolWindowPanel implements Disposable {
 //        ftpBean.setPort(21);
 //        ftpBean.setUsername("kf1ftp_rw");
 //        ftpBean.setPassword("456");
-//        GetFtpFiles getFtpFiles = new GetFtpFiles(ftpBean);
+//        FtpFileUtil getFtpFiles = new FtpFileUtil(ftpBean);
 //        getFtpFiles.login();
 //        getFtpFiles.changePath();
 //        List<FTPFile> ftpFiles = getFtpFiles.getFiles();

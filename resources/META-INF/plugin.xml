@@ -40,6 +40,9 @@
         <projectService serviceInterface="com.asher.yang.upload.UploadSettings"
                         serviceImplementation="com.asher.yang.upload.UploadSettings" />
 
+        <projectService serviceInterface="com.asher.yang.upload.bussiness.LoginService"
+                        serviceImplementation="com.asher.yang.upload.bussiness.LoginService" />
+
     </extensions>
 
     <actions>

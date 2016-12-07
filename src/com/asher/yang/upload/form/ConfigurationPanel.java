@@ -1,12 +1,15 @@
 package com.asher.yang.upload.form;
 
 import com.asher.yang.upload.UploadSettings;
-import com.asher.yang.upload.bean.FtpBean;
-import com.asher.yang.upload.bussiness.GetFtpFiles;
+import com.asher.yang.upload.bussiness.ILoginCallBack;
+import com.asher.yang.upload.bussiness.LoginService;
+import com.asher.yang.upload.util.GuiUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.IdeBorderFactory;
+import com.intellij.ui.JBColor;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 /**
@@ -14,6 +17,8 @@ import java.awt.event.ActionListener;
  * email: ouyangfan1991@gmail.com
  */
 public class ConfigurationPanel {
+    private static final Color CONNECTION_TEST_SUCCESSFUL_COLOR = JBColor.GREEN;
+    private static final Color CONNECTION_TEST_FAILED_COLOR = JBColor.RED;
     private JTextField usernameField;
     private JTextField hostField;
     private JPasswordField passwordField;
@@ -37,34 +42,14 @@ public class ConfigurationPanel {
     }
 
     private ActionListener mConnectBtnActionListener = e -> {
-        FtpBean ftpBean = new FtpBean();
-        ftpBean.setHost(getInputHost());
-        ftpBean.setPort(21);
-        ftpBean.setUsername(getInputUserName());
-        ftpBean.setPassword(getInputPassword());
-        GetFtpFiles ftpFiles = new GetFtpFiles(ftpBean);
-        ftpFiles.login();
+        login();
     };
 
-    // use linux shell . because java call python (param) not suit here.
-    private ActionListener mCopyFileActionListener = event -> {
-//        SshBean ssh = new SshBean();
-//        ssh.setHost(getInputHost());
-//        ssh.setUsername(getInputUserName());
-//        ssh.setPassword(getInputPassword());
-//        String dirPath = getInputFromPath();
-//        String cmd = "ls " + dirPath;
-//        SshExec sshExec = new SshExec(ssh);
-//        String result = sshExec.execute(cmd);
-//        System.out.println("result = " + result);
-        FtpBean ftpBean = new FtpBean();
-        ftpBean.setHost(getInputHost());
-        ftpBean.setPort(21);
-        ftpBean.setUsername(getInputUserName());
-        ftpBean.setPassword(getInputPassword());
-        GetFtpFiles ftpExec = new GetFtpFiles(ftpBean);
-        System.out.println("=== " + ftpExec.getFiles());
-    };
+    private void login() {
+        LoginService loginService = LoginService.getInstance(project);
+        loginService.setLoginListener(mLoginCallBack);
+        loginService.login();
+    }
 
     public JPanel getRootPanel() {
         return rootPanel;
@@ -174,5 +159,29 @@ public class ConfigurationPanel {
         toPathField.setText(uploadSettings.getToPath());
         uploadFileNameField.setText(uploadSettings.getFileName());
         onlyReleaseCheckBox.setSelected(uploadSettings.getIsOnlyShowRelease());
+    }
+
+    /**
+     * login call back listener
+     */
+    private ILoginCallBack mLoginCallBack = new ILoginCallBack() {
+        @Override
+        public void onSuccess() {
+            setConnectionFeedbackLabel(CONNECTION_TEST_SUCCESSFUL_COLOR, "Successful");
+        }
+
+        @Override
+        public void onFail(Exception ex) {
+            setConnectionFeedbackLabel(CONNECTION_TEST_FAILED_COLOR, "[Fail] " + ex.getMessage());
+        }
+    };
+
+    private void setConnectionFeedbackLabel(final Color labelColor, final String labelText) {
+        GuiUtil.runInSwingThread(new Runnable() {
+            public void run() {
+                connectionStatusLabel.setForeground(labelColor);
+                connectionStatusLabel.setText(labelText);
+            }
+        });
     }
 }
