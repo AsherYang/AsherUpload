@@ -8,7 +8,7 @@ import java.util.Comparator;
  * Created by AsherYang on 2016/12/5.
  * email: ouyangfan1991@gmail.com
  */
-public class FileCompare implements Comparator<FTPFile> {
+public class FileComparator implements Comparator<FTPFile> {
 
     @Override
     public int compare(FTPFile f1, FTPFile f2) {

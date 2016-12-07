@@ -76,7 +76,7 @@ public class FtpFileUtil {
         changePath(baseDir);
         FTPFile[] files = ftpClient.list();
         Collections.addAll(filesTmp, files);
-        FTPFile maxModifyFile = Collections.max(filesTmp, new FileCompare());
+        FTPFile maxModifyFile = Collections.max(filesTmp, new FileComparator());
         // 0:FILE , 1:DIRECTORY , 2:LINK
         if (maxModifyFile.getType() == 1) {
             baseDir = baseDir + "/" + maxModifyFile.getName();
@@ -125,6 +125,7 @@ public class FtpFileUtil {
             throw new IllegalArgumentException("FTPFile need not null.");
         }
 
+        // 这一句主要是要定位(changeDirectory)到当前显示的目录下
         List<FTPFile> files = getFiles();
         if (null == files) {
             return;
