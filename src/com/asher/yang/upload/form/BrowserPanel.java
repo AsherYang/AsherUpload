@@ -6,6 +6,7 @@ import com.asher.yang.upload.action.RefreshNodeAction;
 import com.asher.yang.upload.action.SelectViewAction;
 import com.asher.yang.upload.action.UploadFileAction;
 import com.asher.yang.upload.bean.View;
+import com.asher.yang.upload.bussiness.UploadTreeRenderer;
 import com.asher.yang.upload.util.GuiUtil;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationType;
@@ -21,14 +22,14 @@ import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.ui.BrowserHyperlinkListener;
 import com.intellij.ui.PopupHandler;
 import com.intellij.ui.ScrollPaneFactory;
+import com.intellij.ui.TreeSpeedSearch;
 import com.intellij.ui.treeStructure.SimpleTree;
 import com.intellij.ui.treeStructure.Tree;
+import com.intellij.util.containers.Convertor;
 import it.sauronsoftware.ftp4j.FTPFile;
 
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
+import javax.swing.tree.*;
 import java.awt.*;
 import java.util.List;
 
@@ -99,7 +100,20 @@ public class BrowserPanel extends SimpleToolWindowPanel implements Disposable {
     private Tree createTree() {
         SimpleTree tree = new SimpleTree();
         tree.getEmptyText().setText(LOADING);
+        tree.setCellRenderer(new UploadTreeRenderer());
         tree.setModel(new DefaultTreeModel(new DefaultMutableTreeNode("AsherUpload")));
+
+        new TreeSpeedSearch(tree, new Convertor<TreePath, String>() {
+            @Override
+            public String convert(TreePath treePath) {
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+                Object userObject = node.getUserObject();
+                if (userObject instanceof FTPFile) {
+                    return ((FTPFile) userObject).getName();
+                }
+                return "<empty>";
+            }
+        });
         return tree;
     }
 

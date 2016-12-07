@@ -28,12 +28,24 @@ public class ConfigBean {
      */
     private String password;
 
+    /**
+     * 远程下载地址
+     */
     private String fromPath;
 
+    /**
+     * 远程上传地址
+     */
     private String toPath;
 
+    /**
+     * 上传文件名称
+     */
     private String fileName;
 
+    /**
+     * 是否只显示Release版本
+     */
     private boolean isOnlyRelease;
 
     public String getHost() {
