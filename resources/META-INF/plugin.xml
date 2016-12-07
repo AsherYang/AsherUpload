@@ -38,13 +38,16 @@
                         serviceImplementation="com.asher.yang.upload.form.ConfigurationPanel"/>
 
         <projectService serviceInterface="com.asher.yang.upload.UploadSettings"
-                        serviceImplementation="com.asher.yang.upload.UploadSettings" />
+                        serviceImplementation="com.asher.yang.upload.UploadSettings"/>
 
         <projectService serviceInterface="com.asher.yang.upload.bussiness.LoginService"
-                        serviceImplementation="com.asher.yang.upload.bussiness.LoginService" />
+                        serviceImplementation="com.asher.yang.upload.bussiness.LoginService"/>
 
         <projectService serviceInterface="com.asher.yang.upload.bussiness.RefreshFileService"
-                        serviceImplementation="com.asher.yang.upload.bussiness.RefreshFileService" />
+                        serviceImplementation="com.asher.yang.upload.bussiness.RefreshFileService"/>
+
+        <projectService serviceInterface="com.asher.yang.upload.bussiness.UploadFileService"
+                        serviceImplementation="com.asher.yang.upload.bussiness.UploadFileService"/>
 
     </extensions>
 

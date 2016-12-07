@@ -1,7 +1,7 @@
 package com.asher.yang.upload.form;
 
 import com.asher.yang.upload.UploadSettings;
-import com.asher.yang.upload.bussiness.ILoginCallBack;
+import com.asher.yang.upload.callback.ILoginCallBack;
 import com.asher.yang.upload.bussiness.LoginService;
 import com.asher.yang.upload.util.GuiUtil;
 import com.intellij.openapi.project.Project;

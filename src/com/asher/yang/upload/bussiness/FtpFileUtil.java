@@ -4,6 +4,7 @@ import com.asher.yang.upload.bean.ConfigBean;
 import com.asher.yang.upload.util.TextUtils;
 import it.sauronsoftware.ftp4j.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -110,6 +111,45 @@ public class FtpFileUtil {
      */
     public void disConnect() throws FTPException, IOException, FTPIllegalReplyException {
         ftpClient.disconnect(false);
+    }
+
+    /**
+     * 上传文件至服务器指定地址 toPath
+     * <p>
+     * 先从fromPath 下载到本地，在上传到 toPath
+     */
+    public void upload2Server(FTPFile uploadFile) throws FTPException, IOException, FTPIllegalReplyException,
+            FTPDataTransferException, FTPAbortedException, FTPListParseException {
+        throwIllegalArgumentException(mConfigBean);
+        if (null == uploadFile) {
+            throw new IllegalArgumentException("FTPFile need not null.");
+        }
+
+        List<FTPFile> files = getFiles();
+        if (null == files) {
+            return;
+        }
+        File localFile = new File(localFilePath());
+        String remoteFileName = baseDir + "/" + uploadFile.getName();
+        System.out.println("remoteFileName = " + remoteFileName);
+        ftpClient.download(remoteFileName, localFile);
+        ftpClient.changeDirectory(mConfigBean.getToPath());
+        ftpClient.upload(localFile);
+        localFile.delete();
+    }
+
+    /**
+     * 不同的os返回不同的路径
+     *
+     * @return localFilePath
+     */
+    private String localFilePath() {
+        String osName = System.getProperty("os.name");
+        if (osName.toUpperCase().contains("WINDOWS")) {
+            return "D:\\" + mConfigBean.getFileName() + ".apk";
+        } else {
+            return "/root/" + mConfigBean.getFileName() + ".apk";
+        }
     }
 
     /**

@@ -29,7 +29,10 @@ import com.intellij.util.containers.Convertor;
 import it.sauronsoftware.ftp4j.FTPFile;
 
 import javax.swing.*;
-import javax.swing.tree.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.util.List;
 
@@ -81,7 +84,7 @@ public class BrowserPanel extends SimpleToolWindowPanel implements Disposable {
     private void installActionsInPopupMenu() {
         DefaultActionGroup popupGroup = new DefaultActionGroup("AsherPopupAction", true);
 
-        popupGroup.add(new UploadFileAction(this));
+        popupGroup.add(new UploadFileAction(this, project));
 
         PopupHandler.installPopupHandler(fileTree, popupGroup, "POPUP", ActionManager.getInstance());
     }
@@ -168,7 +171,21 @@ public class BrowserPanel extends SimpleToolWindowPanel implements Disposable {
     }
 
     public void notifySuccessMessage(String msg) {
-        Notifications.Bus.notify(new Notification("INFO", "UPLOAD SUCCESS . ", msg, NotificationType.INFORMATION));
+        GuiUtil.runInSwingThread(new Runnable() {
+            @Override
+            public void run() {
+                Notifications.Bus.notify(new Notification("INFO", "UPLOAD SUCCESS . ", msg, NotificationType.INFORMATION));
+            }
+        });
+    }
+
+    public void notifyFailMessage(String errorMsg) {
+        GuiUtil.runInSwingThread(new Runnable() {
+            @Override
+            public void run() {
+                Notifications.Bus.notify(new Notification("INFO", "UPLOAD FAIL . ", errorMsg, NotificationType.ERROR));
+            }
+        });
     }
 
 }

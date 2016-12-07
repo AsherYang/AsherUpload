@@ -1,6 +1,6 @@
 package com.asher.yang.upload.action;
 
-import com.asher.yang.upload.bussiness.IRefreshFileCallBack;
+import com.asher.yang.upload.callback.IRefreshFileCallBack;
 import com.asher.yang.upload.bussiness.RefreshFileService;
 import com.asher.yang.upload.form.BrowserPanel;
 import com.asher.yang.upload.util.GuiUtil;

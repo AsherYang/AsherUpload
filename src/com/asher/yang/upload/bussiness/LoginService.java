@@ -1,6 +1,7 @@
 package com.asher.yang.upload.bussiness;
 
 import com.asher.yang.upload.UploadSettings;
+import com.asher.yang.upload.callback.ILoginCallBack;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;

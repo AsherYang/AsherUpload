@@ -1,4 +1,4 @@
-package com.asher.yang.upload.bussiness;
+package com.asher.yang.upload.callback;
 
 import it.sauronsoftware.ftp4j.FTPFile;
 
