@@ -160,7 +160,7 @@ public class FtpFileUtil {
         if (null == configBean || TextUtils.isEmpty(configBean.getHost())
                 || TextUtils.isEmpty(configBean.getUsername())
                 || TextUtils.isEmpty(configBean.getPassword())) {
-            throw new IllegalArgumentException("ftp bean and argument must not null.");
+            throw new IllegalArgumentException("you should check the setting arguments.");
         }
     }
 }
