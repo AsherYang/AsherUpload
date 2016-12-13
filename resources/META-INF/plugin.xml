@@ -1,6 +1,6 @@
 <idea-plugin version="2">
     <id>com.asher.yang.upload.plugin</id>
-    <name>Asher upload</name>
+    <name>Asher Upload</name>
     <version>1.0.0</version>
     <vendor email="ouyangfan1991@gmail.com" url="https://github.com/AsherYang">AsherYang</vendor>
 
