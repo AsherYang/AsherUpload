@@ -1,6 +1,6 @@
 # AsherUpload
 
-an upload plugin for IDEA. Is for work.
+an upload plugin for `android studio` IDEA. Is for work.
 
 ## 开发的第一个插件
 
