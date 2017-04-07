@@ -22,6 +22,7 @@ public class FtpFileUtil {
     private FTPClient ftpClient;
     private List<FTPFile> ftpFiles = new ArrayList<>();
     private List<FTPFile> filesTmp = new ArrayList<>();
+    private List<FTPFile> filesDirTmp = new ArrayList<>();
     private ConfigBean mConfigBean;
 
     public FtpFileUtil(ConfigBean configBean) {
@@ -131,12 +132,72 @@ public class FtpFileUtil {
             return;
         }
         File localFile = new File(localFilePath());
+        // 使用"/" 形式，因为使用File.separator无效
         String remoteFileName = baseDir + "/" + uploadFile.getName();
         System.out.println("remoteFileName = " + remoteFileName);
         ftpClient.download(remoteFileName, localFile);
-        ftpClient.changeDirectory(mConfigBean.getToPath());
+        changeToUploadPath(uploadFile, mConfigBean.getToPath());
         ftpClient.upload(localFile);
         localFile.delete();
+    }
+
+    /**
+     * 获取需要上传的目录
+     * 分为Debug和Release
+     */
+    private void changeToUploadPath(FTPFile uploadFile, String baseUploadPath) throws FTPException, IOException, FTPIllegalReplyException,
+            FTPAbortedException, FTPDataTransferException, FTPListParseException {
+        ftpClient.changeDirectory(baseUploadPath);
+        boolean isDebugFile = uploadFile.getName().contains("debug");
+        FTPFile[] files = ftpClient.list();
+        // 为null 说明没有子目录及文件，直接上传到该目录
+        if (null == files || files.length == 0) {
+            return;
+        }
+        // 只获取文件夹
+        filesDirTmp.clear();
+        for (FTPFile ftpFile : files) {
+            if (ftpFile.getType() == 1) {
+                filesDirTmp.add(ftpFile);
+            }
+        }
+
+        // 只有文件，没有文件夹，那就是使用当前文件夹上传
+        if (filesDirTmp.isEmpty()) {
+            return;
+        }
+
+        // 如果只有1层子目录，直接cd进去
+        if (filesDirTmp.size() == 1) {
+            // 使用"/" 形式，因为使用File.separator无效
+            baseUploadPath = baseUploadPath + "/" + filesDirTmp.get(0).getName();
+            changeToUploadPath(uploadFile, baseUploadPath);
+            return;
+        }
+
+        // 多层子目录，存在Debug|Release目录
+        boolean hasChange = false;
+        for (FTPFile file : filesDirTmp) {
+            // debug 目录
+            if (isDebugFile && file.getName().toLowerCase().contains("debug")) {
+                baseUploadPath = baseUploadPath + "/" + file.getName();
+                hasChange = true;
+                break;
+            }
+            // release 目录
+            if (!isDebugFile && file.getName().toLowerCase().contains("release")) {
+                baseUploadPath = baseUploadPath + "/" + file.getName();
+                hasChange = true;
+                break;
+            }
+        }
+
+        if (hasChange) {
+            changeToUploadPath(uploadFile, baseUploadPath);
+        } else {
+            // 如果没有改变，则说明，多级目录不存在Debug|Release目录，提示用户无法定位目录，重新设置
+            throwIllegalArgumentException(mConfigBean);
+        }
     }
 
     /**

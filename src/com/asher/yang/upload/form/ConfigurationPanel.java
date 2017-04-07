@@ -31,6 +31,7 @@ public class ConfigurationPanel {
     private JTextField uploadFileNameField;
     private JCheckBox onlyReleaseCheckBox;
     private JPanel checkBoxPanel;
+    private JTextPane attentionTextPane;
 
     private Project project;
 
@@ -39,6 +40,8 @@ public class ConfigurationPanel {
 
         testConnectionButton.addActionListener(mConnectBtnActionListener);
         checkBoxPanel.setBorder(IdeBorderFactory.createTitledBorder("Show Settings", true));
+        attentionTextPane.setBorder(IdeBorderFactory.createTitledBorder("Attention:", true));
+        initAttention();
     }
 
     private ActionListener mConnectBtnActionListener = e -> {
@@ -53,6 +56,14 @@ public class ConfigurationPanel {
 
     public JPanel getRootPanel() {
         return rootPanel;
+    }
+
+    /**
+     * Attention
+     */
+    private void initAttention() {
+        attentionTextPane.setText(" 1. toPath 选择Debug或Release目录的上层目录，否则找不到路径上传！ \n" +
+                " 2. 您需要先使用Jenkins先编译版本，生成新版本后，确认版本再进行上传。");
     }
 
     /**
