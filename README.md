@@ -17,5 +17,5 @@ an upload plugin for IDEA. Is for work.
 `AsherUpload.zip` 是编译生成的最新版本插件文件，`android studio`可以通过导入本地插件的方式添加该插件试用。
 
 ## 插件图
-![plugin3] (https://raw.githubusercontent.com/AsherYang/AsherUpload/master/screenshot/plugin03.png)
-![plugin2] (https://raw.githubusercontent.com/AsherYang/AsherUpload/master/screenshot/plugin02.png)
+![plugin3](https://raw.githubusercontent.com/AsherYang/AsherUpload/master/screenshot/plugin03.png)
+![plugin2](https://raw.githubusercontent.com/AsherYang/AsherUpload/master/screenshot/plugin02.png)
