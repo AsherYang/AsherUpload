@@ -21,11 +21,11 @@ public class US2ConfigBeanUtil {
         ConfigBean configBean = new ConfigBean();
         configBean.setHost(uploadSettings.getHost());
         configBean.setPort(21);
-        configBean.setUsername(uploadSettings.getUsername());
-        configBean.setPassword(uploadSettings.getPassword());
-        configBean.setFromPath(uploadSettings.getFromPath());
-        configBean.setToPath(uploadSettings.getToPath());
-        configBean.setFileName(uploadSettings.getFileName());
+        configBean.setUsername(uploadSettings.getUsername().equals("") ? "" : uploadSettings.getUsername().trim());
+        configBean.setPassword(uploadSettings.getPassword().equals("") ? "" : uploadSettings.getPassword().trim());
+        configBean.setFromPath(uploadSettings.getFromPath().equals("") ? "" : uploadSettings.getFromPath().trim());
+        configBean.setToPath(uploadSettings.getToPath().equals("") ? "" : uploadSettings.getToPath().trim());
+        configBean.setFileName(uploadSettings.getFileName().equals("") ? "" : uploadSettings.getFileName().trim());
         configBean.setOnlyRelease(uploadSettings.getIsOnlyShowRelease());
         return configBean;
     }
